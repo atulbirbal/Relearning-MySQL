@@ -1,8 +1,8 @@
 # MySQL
 
-## Day 1 of learning *MySQL*
-
 ---
+
+## Day 1
 
 ### Database
 
@@ -38,13 +38,189 @@
 
 ### Coding Part
 
-1. Show Database
-`Syntax: SHOW Database;`
-2. Create Database
+1. Show Database  
+`Syntax: SHOW Databases;`
+2. Create Database  
 `Syntax: CREATE Database db_name;`
-3. Drop/Delete Database
+3. Drop/Delete Database  
 `Syntax: DROP Database db_name;`
-4. Using Database/Getting into Database
+4. Using Database/Getting into Database  
 `Syntax: USE db_name;`
-5. Know which Database is currently in use
+5. Know which Database is currently in use  
 `Syntax: SELECT DATABASE();`
+
+---
+
+## Day 2
+
+Used previous 5 syntax to familarize myself with the syntax and examples to practice.
+
+### Table
+
+> Organized collection of data arranged in rows and columns.
+> Used to store and organize data in a structured format.
+> Enables us to search, retrieve and manipulate the data in easier way.  
+> A table can contain different types of data.
+> > Text, integer, floating point, etc  
+>
+> Example:
+> |Name|Genre|Rating|
+> |:---|:---|:---|
+> |The Witcher 3 |RPG | 9.3/10 |
+> |GTA V | Action-Adventure | 9.6/10 |
+> |COD | Battle Royale | 8.7/10 |
+
+### Data Types
+
+> Simply the type of data that are stored in a table.
+> It tells a database what kind of data can be stored in a *column* of a table.  
+> Example:
+>
+> 1. A column with datatype of integer can only store whole numbers
+>
+> 2. A column with datatype of text can store letters, numbers and other characters.
+
+### Creating a table
+
+```sql
+Example:
+
+CREATE TABLE GAMES (
+    name VARCHAR(50),
+    ratings int
+);
+```
+
+> It will create a table with the name GAME.  
+> It will contain two columns *name* and *ratings*.  
+> **name**: column will store variable character string with a maximum length of 50 characters.  
+> **ratings**: column can store whole numbers.
+
+```sql
+Syntax:
+
+CREATE TABLE table_name
+(
+    column_name data_type,
+    ....
+    ..
+);
+```
+
+```sql
+Example:
+
+CREATE TABLE games
+(
+    name VARCHAR(50),
+    release_year INT,
+    ratings INT
+);
+```
+
+### Fetching information about a Table
+
+1. Display a list of all tables in a *database*  
+`Syntax: SHOW TABLES;`
+2. Display the columns of a table  
+`Syntax: SHOW COLUMNS FROM table_name;`
+3. Display/ Describe the structure of table  
+`Syntax: DESC table_name;`  
+DESC is short for DESCRIBE
+
+4. Adding Default value
+
+```sql
+Syntax:
+
+CREATE TABLE table_name
+(
+    column_name data_type DEFAULT 'default_value',
+    ...,
+    ..
+);
+```
+
+```sql
+Example:
+
+CREATE TABLE game
+(
+    name VARCHAR(50) DEFAULT 'Anonymous',
+    release_year INT DEFAULT 2026,
+    ratings INT
+);
+```
+
+5. Drop Delete a table  
+`Syntax: Drop TABLE table_name;`
+
+```sql
+Example:
+
+DROP TABLE game;
+```
+
+### Common Data Types used in MySQL
+
+1. CHAR (*size*)
+
+    > Used for **fixed length character** strings.  
+    > When defining a column with CHAR datatype it is mandatory to specify a fixed length for the string.  
+    > Can contain letters, numbers and special characters.  
+    > Example: `CHAR (10)`  
+    > > If characters less than 10 is filled in a column then the remaining spaces are filled to the limit size.
+
+2. VARCHAR (*size*)
+
+   > Used for **variable length characters** string.  
+   > When you define a column with VARCHAR datatype, a maximum length for the string is needed to be specified.  
+   > Can contain letters, numbers and special characters.  
+   > Example: `VARCHAR (255)`  
+   > > Only the required size is allocated as needed.
+
+3. INT
+
+   > Used to store **whole numbers** (integers) without decimal points.  
+   > Example: `INT (255)`
+
+4. DECIMAL
+
+    > Used to store **exact numeric value**.  
+    > Commonly used for monetary or other values where precision is required.  
+    > It requires two parameters `DECIMAL (p,s)`  
+    > > where,  
+    > > - *p* specifies the total number of digits that can be stored (*precision*)  
+    > > - *s* specifies the number of digits after the decimal point (*scale*).
+
+5. DATE
+
+   > Used to store a **date** value in the form of `YYYY-MM-DD`.  
+   > Example: `2026-03-02`
+
+6. TIME
+
+    > Used to store a **time** value in the form of `HH:MM:SS`.  
+    > Example `22:24:34`
+
+7. DATETIME
+
+    > Used to store both date and time informaton.  
+    > It is in the form of `YYYY-MM-DD HH:MM:SS`.  
+    > Example: `2026-03-02 22:24:34`
+
+```sql
+Example:
+
+CREATE TABLE movies
+(
+    title VARCHAR(50),
+    release_year INT,
+    total_time TIME DEFAULT "02:18:23",
+    rating DECIMAL,
+    review CHAR(20),
+    review_date DATE DEFAULT "2026-03-02"
+);
+```
+
+---
