@@ -224,3 +224,281 @@ CREATE TABLE movies
 ```
 
 ---
+
+## Day 3
+
+### Inserting data labels and values in a table
+
+```sql
+Syntax:
+
+INSERT INTO TABLE table_name (column1, column2, ..., columnN)
+VALUES (data1, data2, ..., dataN);
+```
+
+```sql
+Example:
+
+INSERT INTO TABLE game (name, release_year, ratings)
+VALUES ("The Witcher 3", 2015, 9);
+```
+
+> Datatypes should match for the column to insert data.  
+> We can insert multiple values at once for multiple rows.
+
+```sql
+Syntax:
+INSERT INTO TABLE table_name (column1, column2, ..., columnN)
+VALUES (data1, data2,..., dataN),
+       (data1, data2,..., dataN),
+       (data1, data2,..., dataN);
+```
+
+```sql
+Example:
+
+INSERT INTO TABLE game (name, release_year, ratings)
+VALUES ("The Witcher 3", 2015, 9),
+       ("GTA V", 2013, 9);
+```
+
+### Select specific property from a table
+
+```sql
+Syntax:
+
+SELECT PROPERTY FROM table_name;
+```
+> *PROPERTY* refers to the column of a table.  
+
+```sql
+Example:
+
+SELECT name FROM game;
+SELECT release_year FROM game;
+```
+
+> We can select multiple properties from a table.
+
+```sql
+Syntax:
+
+SELECT PROPERTY_1, PROPERTY_2, ..., PROPERTY _N FROM table_name;
+```
+
+```sql
+Example:
+
+SELECT name, release_year FROM game;
+SELECT name, release_year, ratings FROM game;
+```
+
+> We can even select all the properties from a table
+
+```sql
+Syntax:
+
+SELECT * FROM table_name;
+```
+
+```sql
+Example:
+
+SELECT * FROM game;
+```
+
+### Primary Key
+
+> It is a **unique identifier** for each record in a table.  
+> It ensures that each row in a table is uniquely identifiable and helps maintain integrity of the data.  
+> A primary key column can't have **NULL** value and must be **unique**.
+
+```sql
+Syntax:
+
+CREATE TABLE table_name
+(
+    column_name1 data_type PRIMARY KEY,
+    column_name2 data_type
+);
+```
+
+```sql
+Example:
+
+CREATE TABLE students
+(
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    admission_year INT,
+    admitted_course VARCHAR(50)
+);
+```
+
+> When inserting values in this table, we have to set the value for id each time.
+
+```sql
+Example:
+
+INSERT INTO students (id, name, admision_year, admitted_course)
+VALUES (1,"Ram Bahadur",2022, "BIT");
+```
+
+> To workaround for this there is a keyword `AUTO_INCREMENT` that will set the values automatically.
+
+```sql
+Syntax:
+
+CREATE TABLE table_name 
+(
+    column_name data_type PRIMARY KEY AUTO_INCREMENT
+);
+```
+
+```sql
+Example:
+
+CREATE TABLE students
+(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50),
+    grade CHAR(2),
+);
+
+INSERT INTO students (name, grade)
+VALUES ("Hari", 'A');
+```
+
+### Foreign Key
+
+> It is a set of constraints that is used to establish relationship between tables.  
+> A key that is a **primary key** in one table and is present in another table.  
+> Creates a link between tables to maintain **referential integrity**.  
+> A table with **foreign key** is called child table and the table with **primary key** is called parent or referenced table.  
+> It prevents invalid data from being inserted into the foreign key column, as the value needs to also be present in parent table.
+
+```sql
+Syntax:
+
+CREATE TABLE table_name_1
+(
+    column_name_1 data_type PRIMARY KEY
+);
+
+CREATE TABLE table_name_2
+(
+    column_name_1 data_type, 
+    FOREIGN KEY (column_name_1)REFERENCES table_name_1 (column_name_1)
+); 
+```
+
+```sql
+Example:
+
+-- Table 1
+CREATE TABLE customers
+(
+    customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_name VARCHAR(50)
+);
+
+-- Table 2
+CREATE TABLE transactions
+(
+    transaction_id PRIMARY KEY AUTO_INCREMENT,
+    transaction_amount DOUBLE,
+    customer_id INT,
+    FOREIGN KEY(customer_id) REFERENCES customer(customer_id)
+);
+```
+
+### WHERE Clause
+
+> It is used to **filter records** that meets a specified condition.  
+> Typically used in *SELECT*, *UPDATE* and *DELETE* statements.  
+> It specifies which specific rows to *UPDATE* or *DELETE*.
+
+```sql
+Syntax:
+
+SELECT property_1, .., property_N
+FROM table_name
+WHERE conditions;
+```
+
+```sql
+Example:
+
+SELECT name
+FROM game
+WHERE release_year < 2025;
+```
+
+### Aliases
+
+> It is used to give a *column* or *table* a temporary name.  
+> This temporary name only exist for the duration of that query.
+
+```sql
+Syntax:
+
+SELECT column_name AS alias_name
+FROM table_name;
+```
+
+```sql
+Example:
+
+SELECT name AS game_title 
+FROM game;
+```
+
+### Update data in a table
+
+> It is used to update or modify one or more records in a table.
+
+```sql
+Syntax:
+
+UPDATE table_name
+SET column_1 = value_1, column_2 = value_2, ..., column_N = value_N
+WHERE condition;
+```
+
+```sql
+Example:
+
+UPDATE students
+SET grade = "B"
+WHERE id = 1;
+```
+
+> Always keep in mind to put `WHERE` clause when using `UPDATE` keyword.
+> >
+> If `WHERE` clause isn't used then all the values for that selected column will be updated.
+
+### Delete data in a table
+
+> **Delete** statement is used to delete existing records from a table.
+
+```sql
+Syntax:
+
+DELETE 
+FROM table_name
+WHERE conditions;
+```
+
+```sql
+Example:
+
+DELETE
+FROM users
+WHERE status = "inactive";
+```
+
+> Always keep in mind to put `WHERE` clause when using `DELETE` keyword.
+>
+> If `WHERE` clause isn't used then all the data in the table will be deleted.
+
+---
