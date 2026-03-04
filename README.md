@@ -502,3 +502,273 @@ WHERE status = "inactive";
 > If `WHERE` clause isn't used then all the data in the table will be deleted.
 
 ---
+
+### Day 4
+
+---
+
+### Functions
+
+1. **Substring()** Function
+   > Used to **extract a substring** from a string.  
+   > Allows us to specify the starting position and the length of the substring to extract.
+
+   ```sql
+   Syntax:
+
+   SUBSTRING(string, start_position, length);
+   ```
+
+   ```sql
+   Example:
+   
+   SELECT SUBSTRING("Batman",1,3) AS extracted_string;
+   ```
+
+2. **Replace()** Function
+   > Used to **replace all occurence** of a substring within a string with another substring.  
+   > It is case sensitive.
+
+   ```sql
+   Syntax:
+   
+   REPLACE(string, old_substring, new_substring);
+   ```
+
+   ```sql
+   Example:
+
+   SELECT REPLACE("Batman", "B", "C") AS replaced_string;
+   ```
+
+3. **Reverse()** Function
+   > Used to **reverse a string**.
+
+   ```sql
+   Syntax:
+
+   REVERSE(string);
+   ```
+
+   ```sql
+   Example:
+
+   SELECT REVERSE("ONE") AS reversed_string;
+   ```
+
+4. **CHAR_LENGTH()** Function
+   > Used to return the **number of characters** in a string.
+
+   ```sql
+   Syntax:
+
+   CHAR_LENGTH(string);
+   ```
+
+   ```sql
+   Example:
+
+   SELECT CHAR_LENGTH("Countme") AS string_length;
+   ```
+
+5. **CONCAT()** Function
+   > Used to **combine two or more columns** together.
+
+   ```sql
+   Syntax:
+
+   CONCAT(column_1,column_2,...,column_N);
+   ```
+
+   ```sql
+   Example:
+
+   SELECT CONCAT ("Nepal","Kathmandu","Bhaktapur") AS combined_address;
+   ```
+
+### ORDER BY Clause
+
+> Used to **sort the result set** of a *SELECT* statement.  
+> We can select one or more columns to *sort by* and also we can specify the order of sorting for each column in *ascending or descending*.
+
+```sql
+Syntax:
+
+SELECT column_1, column_2, ..., column_N FROM table_name
+ORDER BY column_1, column_2, ..., column_N ASC | DESC;
+```
+
+```sql
+Example:
+
+SELECT title, release_year FROM movies
+ORDER BY release_year ASC;
+```
+
+### LIMIT Clause
+
+> Used to **restrict the number of rows** returned by a *SELECT* statement.  
+> Implemented for pagination (display limited information on single page).  
+> Used in combination with `ORDER BY` clause to retrieve a specific number of rows starting from a particular position in the result set.
+
+```sql
+Syntax:
+
+LIMIT integer_value;
+```
+
+```sql
+Example:
+
+SELECT * FROM movies
+LIMIT 3;
+```
+
+> Offset can be used with `LIMIT` in order to skip certain number of rows
+
+```sql
+Example:
+
+SELECT * FROM movies
+ORDER BY release_year DESC
+LIMIT 3 OFFSET 2;
+```
+
+### LIKE Operator
+
+> Used in a `SELECT` statement to search for a **specified pattern in a column** with combination of `WHERE` clause.  
+> Often used with **wildcard characters** to perform pattern matching.  
+> Two wildcards are often used with `LIKE` operator:
+> > Percent sign `%`: It represent *zero or more* characters.  
+> > Underscore sign `_`: It represent exactly *one* character.  
+>
+> Combination of wildcards are also allowed.
+
+```sql
+Syntax:
+
+SELECT column_1, column_2, ..., column_N
+FROM table_name
+WHERE column_1, column_2, ..., column_N LIKE pattern;
+```
+
+```sql
+Example:
+
+SELECT * FROM movies
+WHERE title LIKE "%t%";
+
+SELECT * FROM movies
+WHERE title LIKE "_h%";
+```
+
+### Aggregate Functions
+
+> A function that performs a calculation on a set of values, and return a single value.  
+> These functions are often used with combination of `GROUP BY` clause to return the values for each group.
+
+1. **COUNT ()**
+   > Used to return the number of rows that **matches a specific condition**.  
+   > Used in `SELECT` statement to count the number of rows in a table, or to count the number of rows that meets a certain conditon.
+
+   ```sql
+   Syntax:
+
+   SELECT COUNT([DISTINCT] column_name | *)
+   FROM table_name
+   WHERE conditions;
+   ```
+
+   ```sql
+   Example:
+
+   SELECT COUNT(rating) AS 2000_released
+   FROM movies
+   WHERE release_year > 2000;
+
+   SELECT COUNT(DISTINCT rating) AS unique_ratings
+   FROM movies;
+   ```
+
+2. **MIN ()** & **MAX ()**
+   > Used to return the **minimum** and **maximum** values respectively from a set of values.  
+
+   ```sql
+   Syntax:
+
+   SELECT MIN(column_name)
+   FROM table_name
+   WHERE conditions;
+
+   SELECT MAX(column_name)
+   FROM table_name
+   WHERE conditions;
+   ```
+
+   ```sql
+   Example:
+
+   SELECT MIN(release_year) AS earliest_release
+   FROM movies;
+
+   SELECT MAX(release_year) AS latest_release
+   FROM movies;
+   ```
+
+3. **SUM ()**
+   > Used to calculate the sum of values in a column.  
+   > It ignores `NULL` values in the column.
+
+   ```sql
+   Syntax:
+
+   SELECT SUM(column_name)
+   FROM table_name
+   WHERE conditions;
+   ```
+
+   ```sql
+   Example:
+
+   SELECT SUM(age) AS age 
+   FROM students;
+   ```
+
+4. **AVG ()**
+   > Used to calculate the average value of a numeric column.
+
+   ```sql
+   Syntax:
+
+   SELECT AVG(column_name)
+   FROM table_name
+   WHERE conditions;
+   ```
+
+   ```sql
+   Example:
+
+   SELECT AVG(rating) AS average_rating 
+   FROM movies;
+   ```
+
+### GROUP BY Clause
+
+> Used in `SELECT` statement to group rows that have the **same values** in the specified column.  
+> Almost always used in combination with `Aggregate Functions` to perform calculations on each group.
+
+```sql
+Syntax:
+
+SELECT column_1, aggregate_function(column_2), ..., column_N
+FROM table_name
+GROUP BY column_1;
+```
+
+```sql
+Example:
+
+SELECT review_date, COUNT(review) AS audience_response
+FROM movies
+GROUP BY review_date;
+```
