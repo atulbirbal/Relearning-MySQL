@@ -503,7 +503,7 @@ WHERE status = "inactive";
 
 ---
 
-### Day 4
+## Day 4
 
 ---
 
@@ -772,3 +772,5 @@ SELECT review_date, COUNT(review) AS audience_response
 FROM movies
 GROUP BY review_date;
 ```
+
+---
