@@ -774,3 +774,150 @@ GROUP BY review_date;
 ```
 
 ---
+
+## Day 5
+
+---
+
+### Operators
+
+1. **NOT EQUAL `!=`**
+   > Used to test inequality among two values.
+
+2. **GREATER THANN `>`**
+   > Used to check if a value is greater than another value.
+
+3. **LESS THAN `<`**
+   > Used to check if a value is less than another value.
+
+4. **AND**
+   > Logical operator used for performing **logical AND operations**.  
+
+5. **OR**
+   > Logical operator used for performing **logical OR operations**.  
+   > It combines two or more conditions in a `WHERE` clause.
+
+6. **BETWEEN**
+   > Used to filter the result set within a specific range.  
+   > It is inclusive, i.e. it includes both the start and end values from the specified range.
+
+7. **IN**
+   > Used to select multiple values in `WHERE` clause.  
+   > Allows us to filter the result set based on the specific values.
+   > It functions as a shorthand for multiple *OR* operator.
+
+```sql
+Examples:
+
+SELECT * FROM movies
+WHERE rating != 9;
+
+SELECT title, AVG(rating) FROM movies
+WHERE rating != 8
+GROUP BY title
+ORDER BY title ASC;
+
+----------------------------------------------------
+SELECT * FROM movies
+WHERE rating > 8;
+
+SELECT * FROM movies 
+WHERE total_time < "2:00:00";
+
+----------------------------------------------------
+
+SELECT * FROM movies
+WHERE release_year > 1999 AND rating > 8;
+
+SELECT title AS best_rated_movies_from_2000 
+FROM movies
+WHERE release_year > 1999 OR rating > 8;
+
+----------------------------------------------------
+
+SELECT title, total_time, rating FROM movies
+WHERE total_time BETWEEN "2:00:00" AND "3:00:00";
+
+SELECT title, release_year, rating FROM movies
+WHERE release_year IN (1994, 2010, 2016)
+ORDER BY release_year ASC;
+```
+
+### CASE Statement
+
+> Used to define multiple connditions and return different values based on those conditions.
+> Works similar to `If-Else-If` ladder.
+
+```sql
+Syntax:
+
+SELECT column_name
+CASE 
+   WHEN condition_1 THEN result_1
+   WHEN condition_2 THEN result_2
+   WHEN condition_N THEN result_N
+   ELSE default_value
+END
+FROM table_name;
+```
+
+```sql
+Example:
+
+SELECT name, release_year, 
+CASE 
+    WHEN release_year < 2020 THEN "OLD"
+    WHEN release_year BETWEEN 2020 AND 2024 THEN "MODERN"  
+    ELSE  "NEWELY RELEASED"
+END AS game_release_category
+FROM game
+ORDER BY release_year ASC;
+```
+
+### UNIQUE Constraint
+
+> It ensure that all values in a column are different.  
+> Both `UNIQUE` and `PRIMARY KEY` constraint provides uniqueness for a column or a set of columns.  
+> `PRIMARY KEY` automatically contains `UNIQUE` constraint.  
+> Commonly used to enfore data integrity and prevent duplicate entries.
+
+```sql
+Example:
+
+CREATE TABLE series
+(
+   id INT PRIMARY KEY AUTO_INCREMENT,
+   title VARCHAR(255) UNIQUE,
+   season_count INT,
+   release_year DATE,
+   genre VARCHAR(255)
+);
+
+INSERT INTO series (title, season_count, release_year, genre) VALUES 
+('Stranger Things', 4, '2016-07-15', 'Science Fiction'),
+
+-- Duplicate entry for 'Stranger Things' will cause an error due to UNIQUE constraint on title
+('Stranger Things', 4, '2016-07-15', 'Science Fiction'),
+```
+
+### CHECK Constraint
+
+> Used to specify a condition that must be met for the data in a column.  
+> Used in order to limit a value range that can be placed in a column.  
+
+```sql
+Example:
+
+CREATE TABLE employees
+(
+   id INT PRIMARY KEY AUTO_INCREMENT,
+   age INT CHECK(age >= 18 AND age <= 60)
+);
+
+-- This satisfy CHECK constraint for age column
+INSERT INTO employees (age) VALUES (22);
+
+-- This doesn't satisfy CHECK constraint for age column
+INSERT INTO employees (age) VALUES (17);
+
+```
